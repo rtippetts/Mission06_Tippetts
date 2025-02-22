@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Joels__Movie_Website.Models
 {
-    public class Application
+    public class Movie
     {
         [Key]
-        public int Id { get; set; }
+        public int MovieId { get; set; }
 
-        [Required]
-        public string Category { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -24,7 +27,9 @@ namespace Joels__Movie_Website.Models
 
         public bool? Edited { get; set; }
 
-        public bool? Lent_to { get; set; }
+        public bool? LentTo { get; set; }
+
+        public int CopiedToPlex { get; set; }
 
         [MaxLength(25)] // Enforce max length of 25 characters for Notes
         public string? Notes { get; set; }  // No [Required] attribute here

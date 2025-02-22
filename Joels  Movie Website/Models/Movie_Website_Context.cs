@@ -8,6 +8,30 @@ namespace Joels__Movie_Website.Models
         {
         }
 
-        public DbSet<Application> Applications { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            // Define Foreign Key Relationship
+            modelBuilder.Entity<Movie>()
+                .HasOne(m => m.Category)
+                .WithMany()
+                .HasForeignKey(m => m.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull); // Ensures nullable behavior
+
+            modelBuilder.Entity<Category>().HasData(
+                
+                new Category { CategoryId= 1, CategoryName = "Action"},
+                new Category { CategoryId = 2, CategoryName =  "Romance"},
+                new Category { CategoryId = 3, CategoryName = "Drama" },
+                new Category { CategoryId = 4, CategoryName = "Intrigue" },
+                new Category { CategoryId = 5, CategoryName = "Comedy" },
+                new Category { CategoryId = 6, CategoryName = "Reality" }
+
+
+            );
+        }
     }
 }
