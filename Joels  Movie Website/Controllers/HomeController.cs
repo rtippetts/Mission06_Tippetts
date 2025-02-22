@@ -2,6 +2,7 @@ using System.Diagnostics;
 using AspNetCoreGeneratedDocument;
 using Joels__Movie_Website.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Joels__Movie_Website.Controllers
 {
@@ -35,7 +36,14 @@ namespace Joels__Movie_Website.Controllers
         {
             ViewBag.Categories = _context.Categories
                 .OrderBy(x => x.CategoryName).ToList();
-            
+
+            // Get unique rating values from the database
+            ViewBag.Ratings = _context.Movies
+                .Select(m => m.Rating) // Select only the Rating column
+                .Distinct() // Get unique values
+                .OrderBy(r => r) // Sort alphabetically
+                .ToList();
+
             return View();
         }
 
@@ -52,7 +60,7 @@ namespace Joels__Movie_Website.Controllers
         public IActionResult MovieList()
         {
             //Linq
-            var movies = _context.Movies
+            var movies = _context.Movies.Include(m => m.Category).ToList()
                 .OrderBy(x => x.Title).ToList();
 
             return View(movies);
@@ -70,7 +78,13 @@ namespace Joels__Movie_Website.Controllers
             .OrderBy(x => x.CategoryName)
             .ToList();
 
-         
+            // Get unique rating values from the database
+            ViewBag.Ratings = _context.Movies
+                .Select(m => m.Rating) // Select only the Rating column
+                .Distinct() // Get unique values
+                .OrderBy(r => r) // Sort alphabetically
+                .ToList();
+
             return View("Add_a_movie", recordToEdit);
         }
 

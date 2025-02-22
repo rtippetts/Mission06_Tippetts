@@ -1,4 +1,6 @@
-﻿@*
+﻿<!--Rex Tippetts-->
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -6,41 +8,60 @@
 
 @model List<Movie>
 
-<table class="table table-bordered">
-    <thead class="fw-bold">
-        <tr>
-            <td>Category</td>
-            <td>Title</td>
-            <td>Year</td>
-            <td>Director</td>
-            <td>Rating</td>
-            <td>Edited</td>
-            <td>Lent to</td>
-            <td>Copied To Plex</td>
-            <td>Notes</td>
-        </tr>
-        
-    </thead>
-
-    @foreach (var x in Model)
-    {
-    <tbody> 
-            <tr>
-                <td>@x.Category</td>
-                <td>@x.Title</td>
-                <td>@x.Year</td>
-                <td>@x.Director</td>
-                <td>@x.Rating</td>
-                <td>@x.Edited</td>
-                <td>@x.LentTo</td>
-                <td>@x.CopiedToPlex</td>
-                <td>@x.Notes</td>
-
-                <td><a class="btn btn-info" asp-controller="Home" asp-action="Edit" asp-route-id="@x.MovieId">Edit</a></td>
-                <td><a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-Id="@x.MovieId">Delete</a></td>
-            </tr>
-
-     </tbody> 
+<style>
+    /* Custom table heading styles */
+    .custom-table-header {
+        background-color: #5DADE2 !important; /* Light blue */
+        color: white !important; /* White text for contrast */
+        font-family: 'Poppins', sans-serif; /* Custom font */
+        font-size: 1.2rem; /* Slightly larger font */
     }
+</style>
 
-</table>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="custom-table-header text-center align-middle">
+            <tr>
+                <th class="align-middle">Category</th>
+                <th class="align-middle">Title</th>
+                <th class="align-middle">Year</th>
+                <th class="align-middle">Director</th>
+                <th class="align-middle">Rating</th>
+                <th class="align-middle">Edited</th>
+                <th class="align-middle">Lent To</th>
+                <th class="align-middle">Copied To Plex</th>
+                <th class="align-middle">Notes</th>
+                <th class="align-middle">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var x in Model)
+            {
+     
+                    <tr>
+                        <td>@x.Category?.CategoryName</td>
+                        <td>@x.Title</td>
+                        <td>@x.Year</td>
+                        <td>@x.Director</td>
+                        <td>@x.Rating</td>
+                        <td>@(x.Edited == 1 ? "Yes" : "No")</td> <!-- Display "Yes" or "No" -->
+                        <td>@x.LentTo</td>
+                        <td>@(x.CopiedToPlex == 1 ? "Yes" : "No")</td> <!-- Display "Yes" or "No" -->
+                        <td>@x.Notes</td>
+                    
+                        <td class="d-flex flex-column align-items-center gap-2">
+                            <a class="btn btn-info btn-sm" asp-controller="Home" asp-action="Edit" asp-route-id="@x.MovieId">Edit</a>
+                            <a class="btn btn-danger btn-sm" asp-controller="Home" asp-action="Delete" asp-route-id="@x.MovieId">Delete</a>
+                        </td>
+
+                    </tr>
+
+            }
+         </tbody> 
+    
+
+    </table>
+
+</div>

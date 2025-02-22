@@ -2,6 +2,7 @@
 using Joels__Movie_Website.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Joels__Movie_Website.Migrations
 {
     [DbContext(typeof(Movie_Website_Context))]
-    partial class Movie_Website_ContextModelSnapshot : ModelSnapshot
+    [Migration("20250222065635_UpdateCategoryModel")]
+    partial class UpdateCategoryModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
@@ -28,6 +31,38 @@ namespace Joels__Movie_Website.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Romance"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Drama"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Intrigue"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Reality"
+                        });
                 });
 
             modelBuilder.Entity("Joels__Movie_Website.Models.Movie", b =>
@@ -78,7 +113,8 @@ namespace Joels__Movie_Website.Migrations
                 {
                     b.HasOne("Joels__Movie_Website.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Category");
                 });
